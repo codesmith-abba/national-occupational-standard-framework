@@ -25,5 +25,4 @@ Thumbs.db
 *.log
 *.tmp
 *.bak
-worker/
 /old
