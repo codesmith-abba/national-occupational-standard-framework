@@ -748,7 +748,7 @@
         },
         {
           "lo_num": "2",
-          "description": "Understand the marketing of livestock products Ref. Page No. S/No /Unit No Reference Number NOS Title 1 AHP/LSF/001/L2 Work Safety in livestock Farm Environment AHP/LSF/002/L2 Effective communication in livestock Farm Environment 3 AHP/LSF/003/L2 Team Work in livestock Farm Practice 4 AHP/LSF/004/L2 Ruminant production 5 AHP/LSF/005/L2 Principles of calf, lamb and kid rearing 6 AHP/LSF/006/L2 Tools, equipment and materials in animal husbandry 7 AHP/LSF/007/L2 Nutrition in animal husbandry 8 AHP/LSF/008/L2 Common diseases and parasites of livestock 9 AHP/LSF/009/L2 Animal welfare in ruminant production 10 11",
+          "description": "Understand the marketing of livestock products ",
           "performance_criteria": [
             {
               "pc_code": "2.1",
@@ -778,7 +778,7 @@
             },
             {
               "pc_code": "3.3",
-              "description": "Explain the marketing strategies for manure Credit Value Guided Learning Hours Remark 2 20 NSQ Level 2 5 50 4 40 3 30 300 Reference Number NOS Title AHP/LSF/010/L2 Preparing, maintaining and monitoring of livestock farm AHP/LSF/011/L2 Biosecurity practices in livestock farming 6 60 100"
+              "description": "Explain the marketing strategies for manure "
             }
           ]
         }

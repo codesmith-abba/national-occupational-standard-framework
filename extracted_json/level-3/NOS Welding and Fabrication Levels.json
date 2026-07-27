@@ -1836,7 +1836,7 @@
         },
         {
           "lo_num": "4",
-          "description": "Prepare joint for fitting Unit title Unit number Unit reference Unit level Unit credit value Unit aim Learning Outcome Assessment criteria Unit assessment guidance Unit guided learning hours Unit No UNITS 01 02 03 04 05 TOTAL Reference Number Credit Value Guided Hours",
+          "description": "Prepare joint for fitting",
           "performance_criteria": [
             {
               "pc_code": "4.1",
