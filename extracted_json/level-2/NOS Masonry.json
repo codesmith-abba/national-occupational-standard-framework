@@ -1,8 +1,9 @@
 {
-  "trade_name": "QUALIFICATION: - MASONRY WORKS",
+  "trade_name": "NOS Masonry",
+  "level": 2,
   "units": [
     {
-      "code": "CONMS001L2",
+      "code": "CON/MS/001/L2",
       "title": "Health, Safety and Environment",
       "learning_outcomes": [
         {
@@ -110,7 +111,7 @@
       ]
     },
     {
-      "code": "CONMS002L2",
+      "code": "CON/MS/002/L2",
       "title": "Communication system in a work environment",
       "learning_outcomes": [
         {
@@ -200,7 +201,7 @@
       ]
     },
     {
-      "code": "CONMS003L2",
+      "code": "CON/MS/003/L2",
       "title": "Team Work in Construction Environment",
       "learning_outcomes": [
         {
@@ -225,8 +226,21 @@
         },
         {
           "lo_num": "3",
-          "description": "Requirement of various teams 3. 1 Identify materials and Tools required for each team member. 3. 2 Enumerate the function of tools and equipment required for each team 3. 3 Describe the method of carrying out activities for each team.",
-          "performance_criteria": []
+          "description": "Requirement of various teams",
+          "performance_criteria": [
+            {
+              "pc_code": "3.1",
+              "description": "Identify materials and Tools required for each team member."
+            },
+            {
+              "pc_code": "3.2",
+              "description": "Enumerate the function of tools and equipment required for each team"
+            },
+            {
+              "pc_code": "3.3",
+              "description": "Describe the method of carrying out activities for each team"
+            }
+          ]
         },
         {
           "lo_num": "4",
@@ -245,7 +259,7 @@
       ]
     },
     {
-      "code": "CONMS004L2",
+      "code": "CON/MS/004/L2",
       "title": "Set out masonry Structures",
       "learning_outcomes": [
         {
@@ -331,7 +345,7 @@
       ]
     },
     {
-      "code": "CONMS005L2",
+      "code": "CON/MS/005/L2",
       "title": "Erection of masonry works: using appropriate",
       "learning_outcomes": [
         {
@@ -457,7 +471,7 @@
       ]
     },
     {
-      "code": "CONMS006L2",
+      "code": "CON/MS/006/L2",
       "title": "Rendering and Finishes according to specification",
       "learning_outcomes": [
         {
@@ -543,7 +557,7 @@
       ]
     },
     {
-      "code": "CONMS007L2",
+      "code": "CON/MS/007/L2",
       "title": "Repair and Rectify Masonry structures",
       "learning_outcomes": [
         {
@@ -630,7 +644,7 @@
         },
         {
           "lo_num": "6",
-          "description": "Dismantle /remove/lifting/ Lowering Equipment Level Purpose: This qualification is for the Senior Mason, who needs to be familiar with assistant mason and masons job descriptions as well as coordinate and carryout advanced masonry works. supervise Assistant Mason and Mason and carry out advanced masonry work. QUALIFICATION SUMMARY UNIT 01 02 03 04 05 06 07 08 09 10",
+          "description": "Dismantle /remove/lifting/ Lowering Equipment",
           "performance_criteria": [
             {
               "pc_code": "6.1",
@@ -643,10 +657,6 @@
             {
               "pc_code": "6.3",
               "description": "Ensure proper house keeping"
-            },
-            {
-              "pc_code": "6.3",
-              "description": "Total learning hours 1000 + Guided learning hours Independent learning hours Work-based learning hours 400 600 + (based on training needs) CREDI T VALUE REF NO GLH UNIT ` REMARKS CONMS001L3 Health, Safety and Environment Mandatory CONMS002L3 30 Communication system in a work environment CONMS003L3 Team Work in Construction Environment CONMS004L3 Special structures 9 CONMS005L3 90 Masonry Work in high-rise complex structures elements and techniques in construction CONMS006L3 Plastering on Internal/External surfaces of masonry structures and POP works CONMS007L3 Plan, organise and estimate works to meet required standard CONMS008L3 Water proofing work on masonry structures CONMS009L3 Decorative Optional Moulding Installation CONMS010L3 Terrazo Flooring"
             }
           ]
         }

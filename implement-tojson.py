@@ -302,6 +302,7 @@ def process_directory_to_individual_jsons(directory_path, trade_name=None):
             for level, units in levels.items():
                 level_data = {
                     "trade_name": file_data["trade_name"],
+                    "level": level,
                     "units": units
                 }
                 output_dir = base_output / f"level-{level}"

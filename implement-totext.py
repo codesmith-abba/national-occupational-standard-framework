@@ -48,6 +48,6 @@ def process_directory_to_text_files(directory_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Extract raw text from NOS PDFs to individual text files.")
-    parser.add_argument("--dir", default="./nosall", help="Directory containing the PDF files (default: ./nosall)")
+    parser.add_argument("--dir", default="./worker", help="Directory containing the PDF files (default: ./worker)")
     args = parser.parse_args()
     process_directory_to_text_files(args.dir)

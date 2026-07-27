@@ -1,8 +1,9 @@
 {
-  "trade_name": "QUALIFICATION: - MASONRY WORKS",
+  "trade_name": "NOS Masonry",
+  "level": 1,
   "units": [
     {
-      "code": "CON/MS001/L1",
+      "code": "CON/MS/001/L1",
       "title": "Health, Safety and Environment",
       "learning_outcomes": [
         {
@@ -162,7 +163,7 @@
       ]
     },
     {
-      "code": "CON/MS002/L1",
+      "code": "CON/MS/002/L1",
       "title": "Communication System in a Work Environment",
       "learning_outcomes": [
         {
@@ -238,7 +239,7 @@
       ]
     },
     {
-      "code": "CONMS003L1",
+      "code": "CON/MS/003/L1",
       "title": "Team work in a work environment",
       "learning_outcomes": [
         {
@@ -306,7 +307,7 @@
       ]
     },
     {
-      "code": "CONMS004L1",
+      "code": "CON/MS/004/L1",
       "title": "Identification of equipment, material handling and storage",
       "learning_outcomes": [
         {
@@ -380,7 +381,7 @@
       ]
     },
     {
-      "code": "CONMS005L1",
+      "code": "CON/MS/005/L1",
       "title": "Site preparation and excavation",
       "learning_outcomes": [
         {
@@ -464,7 +465,7 @@
       ]
     },
     {
-      "code": "CONMS006L1",
+      "code": "CON/MS/006/L1",
       "title": "Mix/Surface Preparation and Bonding",
       "learning_outcomes": [
         {
@@ -554,7 +555,7 @@
       ]
     },
     {
-      "code": "CONMS007L1",
+      "code": "CON/MS/007/L1",
       "title": "Erection of simple scaffolding",
       "learning_outcomes": [
         {

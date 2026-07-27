@@ -25,4 +25,6 @@ Thumbs.db
 *.log
 *.tmp
 *.bak
-/old
+old/
+worker/
+extracted_text

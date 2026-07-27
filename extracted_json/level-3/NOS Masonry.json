@@ -1,8 +1,9 @@
 {
-  "trade_name": "QUALIFICATION: - MASONRY WORKS",
+  "trade_name": "NOS Masonry",
+  "level": 3,
   "units": [
     {
-      "code": "CONMS001L3",
+      "code": "CON/MS001/L3",
       "title": "Health, Safety and Environment",
       "learning_outcomes": [
         {
@@ -110,7 +111,7 @@
       ]
     },
     {
-      "code": "CONMS002L3",
+      "code": "CON/MS/002/L3",
       "title": "Communication system in a work environment",
       "learning_outcomes": [
         {
@@ -208,7 +209,7 @@
       ]
     },
     {
-      "code": "CONMS003L3",
+      "code": "CON/MS/003/L3",
       "title": "Team Work in Construction Environment",
       "learning_outcomes": [
         {
@@ -308,7 +309,7 @@
       ]
     },
     {
-      "code": "CONMS004L3",
+      "code": "CON/MS/004/L3",
       "title": "Special Structures",
       "learning_outcomes": [
         {
@@ -352,8 +353,8 @@
       ]
     },
     {
-      "code": "CONMS005L3",
-      "title": "Masonry Work in high-rise complex structures elements and",
+      "code": "CON/MS/005/L3",
+      "title": "Masonry Work in high-rise complex structures elements and techniques in construction",
       "learning_outcomes": [
         {
           "lo_num": "1",
@@ -480,7 +481,7 @@
       ]
     },
     {
-      "code": "CONMS006L3",
+      "code": "CON/MS/006/L3",
       "title": "Plastering on Internal/External surfaces of masonry structures",
       "learning_outcomes": [
         {
@@ -592,7 +593,7 @@
       ]
     },
     {
-      "code": "CONMS007L3",
+      "code": "CON/MS/007/L3",
       "title": "Plan, organise and estimate works to meet required",
       "learning_outcomes": [
         {
@@ -692,7 +693,7 @@
       ]
     },
     {
-      "code": "CONMS008L3",
+      "code": "CON/MS/008/L3",
       "title": "Water proofing work on masonry structures",
       "learning_outcomes": [
         {
@@ -770,7 +771,7 @@
       ]
     },
     {
-      "code": "CONMS009L3",
+      "code": "CON/MS/009/L3",
       "title": "Decorative Moulding Installation",
       "learning_outcomes": [
         {
@@ -854,7 +855,7 @@
       ]
     },
     {
-      "code": "CONMS010L3",
+      "code": "CON/MS/010/L3",
       "title": "Terrazo Flooring",
       "learning_outcomes": [
         {

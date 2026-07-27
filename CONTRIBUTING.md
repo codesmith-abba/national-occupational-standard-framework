@@ -148,8 +148,9 @@ EOF
 ### `implement-totext.py`
 
 - **What it does** — Extracts raw text from every page of a NOS PDF and writes it to a `.txt` file for manual inspection or alternate parsing.
+- **Level detection** — Scans the text for `/L1`, `/L2`, etc. patterns. A multi‑level PDF produces a text file in each matching level folder.
 - **CLI flags**:
-  - `--dir` — Directory containing the PDFs (default: `./nosall`).
+  - `--dir` — Directory containing the PDFs (default: `./worker`).
 
 ---
 
@@ -160,6 +161,7 @@ The JSON follows this hierarchy:
 ```
 {
   "trade_name": "PAINTING AND DECORATION",
+  "level": 2,
   "units": [
     {
       "code": "CON/PD004/L2",
