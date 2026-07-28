@@ -1,7 +1,7 @@
-# national-occupational-standard-framework
+# National-occupational-standard-framework
 This Contain a list of National Occupational Standard from the Offcial NBTE Portal converted to JSON for easy web implementation
 
-A small project for processing and converting National Occupational Standards (NOS) data into JSON and text formats.
+A project for processing and converting National Occupational Standards (NOS) data into JSON and text formats.
 
 python pdf plumber is use to extract from the nos pdf
 
