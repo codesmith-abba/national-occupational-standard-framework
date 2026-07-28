@@ -70,5 +70,3 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions on adding new N
 ## Contact
 
 - muhammadjibrildauda@gmail.com
-- mdjbinary@gmail.com
-- mdjibril.essa@gmail.com
