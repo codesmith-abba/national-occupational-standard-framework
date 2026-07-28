@@ -159,7 +159,7 @@ The JSON follows this hierarchy:
   "level": 2,
   "units": [
     {
-      "code": "CON/PD004/L2",
+      "code": "CON/PD/004/L2",
       "title": "Handling and Storage of Painting and decorating materials",
       "learning_outcomes": [
         {
