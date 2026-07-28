@@ -10,3 +10,6 @@
 - The public NBTE website for downloading NOS PDFs is https://www.digitalnbte.nbte.gov.ng/Public/PUCDashboard. Confidence: 0.70
 - For questions, clarifications, or suggestions, contributors can reach out to muhammadjibrildauda@gmail.com, mdjbinary@gmail.com, or mdjibril.essa@gmail.com. Confidence: 0.80
 
+# project-scope
+- The `implement-totext.py` script and `extracted_text/` output are deprecated. Only use `implement-tojson.py` for PDF extraction. Confidence: 0.85
+

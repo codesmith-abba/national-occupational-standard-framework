@@ -1,24 +1,74 @@
-# National-occupational-standard-framework
-This Contain a list of National Occupational Standard from the Offcial NBTE Portal converted to JSON for easy web implementation
+# National Occupational Standard (NOS) Framework
 
-A project for processing and converting National Occupational Standards (NOS) data into JSON and text formats.
+Converts the Nigerian National Board for Technical Education (NBTE) National Occupational Standard PDFs into structured **JSON** and plain **text** formats for developers building skills platforms, LMS, assessment tools, and skills registries.
 
-python pdf plumber is use to extract from the nos pdf
+📥 Download NOS PDFs from: [NBTE Public Dashboard](https://www.digitalnbte.nbte.gov.ng/Public/PUCDashboard)
 
-## Project structure
+---
 
-- `implement-tojson.py` — script for converting extracted data to JSON.
-- `implement-totext.py` — script for converting extracted data to text.
-- `nos/` — source NOS JSON files.
-- `old code/` — earlier implementation files and experiments.
-- `worker/` — work-in-progress output and extracted data.
+## Project Structure
 
-## Getting started
+```
+├── implement-tojson.py    # PDF → JSON converter (auto-detects NSQ level)
+├── CONTRIBUTING.md        # Guide for contributors
+├── worker/                # Place new NOS PDFs here for extraction
+├── extracted_json/        # JSON output
+│   ├── level-1/
+│   ├── level-2/
+│   ├── level-3/
+│   ├── level-4/
+│   └── level-5/
+```
 
-1. Review the Python scripts in the root directory.
-2. Run the desired script with Python.
-3. Check generated outputs in the relevant folders.
+## Data Model
 
-## Notes
+```json
+{
+  "trade_name": "PAINTING AND DECORATION",
+  "level": 2,
+  "units": [
+    {
+      "code": "CON/PD/004/L2",
+      "title": "Handling and Storage of Painting and decorating materials",
+      "learning_outcomes": [
+        {
+          "lo_num": "1",
+          "description": "Handle Painting and Decorating materials",
+          "performance_criteria": [
+            { "pc_code": "1.1", "description": "Identify methods of safe handling..." }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
 
-This repository appears to be under active development, so file names and output formats may evolve.
+## Quick Start
+
+```bash
+# Clone and set up
+git clone <repo-url>
+cd national-occupational-standard-framework
+python3 -m venv venv
+source venv/bin/activate
+pip install pdfplumber
+
+# Add a NOS PDF to worker/
+cp ~/Downloads/"NOS Course Name.pdf" ./worker/
+
+# Extract
+python implement-tojson.py --dir ./worker
+
+# Output goes to extracted_json/ and extracted_text/
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions on adding new NOS trades, verifying output, and submitting pull requests.
+
+## Contact
+
+- muhammadjibrildauda@gmail.com
+- mdjbinary@gmail.com
+- mdjibril.essa@gmail.com
