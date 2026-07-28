@@ -37,12 +37,21 @@ At a high level the process is:
 
 ## Step‑by‑Step Guide
 
-### 1. Add your PDF
+### 1. Get the PDF
 
-Copy the NOS PDF you want to contribute into the `worker/` directory:
+Download the NOS PDF from the public NBTE portal:
+
+🔗 [https://www.digitalnbte.nbte.gov.ng/Public/PUCDashboard](https://www.digitalnbte.nbte.gov.ng/Public/PUCDashboard)
+
+**Naming convention** — Rename the downloaded file before placing it in `worker/`:
+
+- Regular trades: `"NOS Course Name"` (e.g., `"NOS Painting and Decoration.pdf"`)
+- ICT courses: `"NOS ICT Course Name"` (e.g., `"NOS ICT Cybersecurity Engineering L5.pdf"`)
+
+Then copy your PDF into the `worker/` directory:
 
 ```bash
-cp ~/Downloads/NOS-NSQ\ New\ Trade\ Levels\ 2.pdf ./worker/
+cp ~/Downloads/NOS\ Painting\ and\ Decoration.pdf ./worker/
 ```
 
 ### 2. Run the extraction scripts
@@ -51,19 +60,12 @@ cp ~/Downloads/NOS-NSQ\ New\ Trade\ Levels\ 2.pdf ./worker/
 # Convert PDF → JSON (auto‑detects NSQ level and splits into appropriate level‑N/ folders)
 python implement-tojson.py --dir ./worker
 
-# Convert PDF → plain text
-python implement-totext.py --dir ./worker
 ```
 
 Output is written to:
 
 ```
 extracted_json/
-  level-1/
-  level-2/
-  level-3/
-
-extracted_text/
   level-1/
   level-2/
   level-3/
@@ -117,17 +119,17 @@ If you are comfortable with Python regex and `pdfplumber`, please include the fi
 
 ```bash
 rm worker/NOS-NSQ\ New\ Trade\ Levels\ 2.pdf
-rm -rf worker/extracted_json/ worker/extracted_text/
+rm -rf worker/extracted_json/ 
 ```
 
-- Commit only the new `extracted_json/` and `extracted_text/` files:
+- Commit only the new `extracted_json/` files:
 
 ```bash
-git add extracted_json/ extracted_text/
+git add extracted_json/ 
 git commit -F - <<'EOF'
 Add NOS extraction for New Trade Level 2
 
-Co-authored-by: CommandCodeBot <noreply@commandcode.ai>
+Co-authored-by: YourName <noreply@commandcode.ai>
 EOF
 ```
 
@@ -144,13 +146,6 @@ EOF
   - `--dir` — Directory containing the PDFs (default: `./worker`).
   - `--trade` — Override the auto‑detected trade name.
 - **Level detection** — Units are split by the `/L1`, `/L2`, `/L3` suffix in their reference codes. A multi‑level PDF produces a separate JSON file for each level.
-
-### `implement-totext.py`
-
-- **What it does** — Extracts raw text from every page of a NOS PDF and writes it to a `.txt` file for manual inspection or alternate parsing.
-- **Level detection** — Scans the text for `/L1`, `/L2`, etc. patterns. A multi‑level PDF produces a text file in each matching level folder.
-- **CLI flags**:
-  - `--dir` — Directory containing the PDFs (default: `./worker`).
 
 ---
 
@@ -188,8 +183,23 @@ The JSON follows this hierarchy:
 ## Avoiding Common Mistakes
 
 - **Do not guess levels**. Let the script auto‑detect — each unit's code contains its NSQ level.
-- **Do not hand‑edit JSON**. If the output is wrong, fix the extraction script, re‑run it, and re‑verify.
-- **Small hand‑edits are okay for edge cases**. Things like a missing slash in a unit code (`CONPD004L2` → `CON/PD004/L2`) or a malformed code pattern the regex genuinely cannot handle are fine to fix manually. Always note these edits in your PR description.
+- **Hand‑editing JSON is acceptable for small, obvious fixes**. Examples:
+  - A unit code missing `/` separators (`CONPD004L2` → `CON/PD/004/L2`).
+  - Stray PDF text that leaked into a description (e.g., `"NSQ level: 2 Credit value: 4"` appended to a PC).
+  - An LO description that picked up a page number or footer text.
+  - A trade name that auto‑detection got wrong (e.g., `"// PAINTING AND DECORATION // LEVEL 1 - 3"` → `"PAINTING AND DECORATION"`).
+
+  If you can clearly trace the error by comparing the JSON to the PDF, go ahead and fix it. For anything larger — missing units, whole sections absent, wrong LO/PC assignments — fix the extraction script instead and re‑run. Always note manual edits in your PR description.
 - **Check empty descriptions**. Some PDF layouts put LO descriptions on separate lines or interleaved with PC text. A few empty LO descriptions are acceptable when the PDF layout makes clean extraction impossible — PCs are what really matter.
 - **Do not skip the text output**. The `.txt` files are useful for debugging extraction issues — compare them against the JSON to find gaps.
 - **One trade per PDF**. Most NOS PDFs contain a single trade. If your PDF covers multiple trades, split it or note it in your PR.
+
+---
+
+## Questions & Support
+
+For questions, clarifications, or suggestions, reach out at:
+
+- **muhammadjibrildauda@gmail.com**
+- **mdjbinary@gmail.com**
+- **mdjibril.essa@gmail.com**
