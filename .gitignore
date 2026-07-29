@@ -25,6 +25,10 @@ Thumbs.db
 *.log
 *.tmp
 *.bak
+nbte_pdfs.json
 old/
 extracted_text/
 completed/
+
+# PDFs Worker Directory
+worker
