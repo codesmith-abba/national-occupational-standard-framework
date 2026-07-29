@@ -41,7 +41,7 @@ At a high level the process is:
 
 Download the NOS PDF from the public NBTE portal:
 
-🔗 [https://www.digitalnbte.nbte.gov.ng/Public/PUCDashboard](https://www.digitalnbte.nbte.gov.ng/Public/PUCDashboard)
+🔗 [https://www.digitalnbte.nbte.gov.ng/Public/PUCNOS](https://www.digitalnbte.nbte.gov.ng/Public/PUCNOS)
 
 **Naming convention** — Rename the downloaded file before placing it in `worker/`:
 
@@ -53,6 +53,46 @@ Then copy your PDF into the `worker/` directory:
 ```bash
 cp ~/Downloads/NOS\ Painting\ and\ Decoration.pdf ./worker/
 ```
+
+### Already Extracted Trades
+
+These NOS have already been converted to JSON. Pick a trade **not** listed here to avoid duplicating work.
+
+| Trade | L1 | L2 | L3 | L4 | L5 |
+|---|---|---|---|---|---|
+| Agricultural Equipment Mechanics | ✅ | ✅ | ✅ | | |
+| Animal Husbandry (Livestock Farming) | ✅ | ✅ | ✅ | | |
+| Autobody Works | ✅ | ✅ | ✅ | | |
+| Automobile Mechanics | ✅ | ✅ | ✅ | | |
+| Blacksmithing | ✅ | ✅ | ✅ | | |
+| Carpentry and Joinery | ✅ | ✅ | ✅ | | |
+| Cosmetology and Beauty Therapy | ✅ | ✅ | ✅ | | |
+| Electrical Installation Maintenance and Repairs | ✅ | ✅ | ✅ | | |
+| Fashion and Garment Making | ✅ | ✅ | ✅ | | |
+| Furniture Making and Upholstery | ✅ | ✅ | ✅ | | |
+| ICT Back-End Web Development | | | ✅ | | |
+| ICT Computer Hardware Repairs & Maintenance | ✅ | ✅ | ✅ | | |
+| ICT Computer Networking | ✅ | ✅ | ✅ | | |
+| ICT Computer Operation | | ✅ | | | |
+| ICT Cybersecurity Analyst | | | ✅ | | |
+| ICT Cybersecurity Engineering | | | | | ✅ |
+| ICT Data Analytics | | | | ✅ | |
+| ICT Digital Content Creation | | | ✅ | | |
+| ICT Digital Service Operations | | ✅ | ✅ | | |
+| ICT Front-End Web Development | | | ✅ | | |
+| ICT Network Support Specialist | | | | ✅ | |
+| ICT Social Media Communication | | | ✅ | | |
+| ICT Social Media Contents Creation and Management | ✅ | ✅ | ✅ | | |
+| ICT Web Development | | ✅ | ✅ | ✅ | |
+| Leather Works | ✅ | ✅ | ✅ | | |
+| Masonry | ✅ | ✅ | ✅ | | |
+| Painting and Decoration | ✅ | ✅ | ✅ | | |
+| Plumbing | ✅ | ✅ | ✅ | | |
+| Refrigeration and Air Conditioning | ✅ | ✅ | ✅ | | |
+| Solar Photovoltaic System Installation and Maintenance | ✅ | ✅ | ✅ | | |
+| Tilling and Decorative Stonework | ✅ | ✅ | ✅ | | |
+| Tire and Wheel Services | ✅ | ✅ | ✅ | | |
+| Welding and Fabrication Levels | ✅ | ✅ | ✅ | | |
 
 ### 2. Run the extraction scripts
 

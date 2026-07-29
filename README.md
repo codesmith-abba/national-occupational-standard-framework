@@ -2,7 +2,7 @@
 
 Converts the Nigerian National Board for Technical Education (NBTE) National Occupational Standard PDFs into structured **JSON** and plain **text** formats for developers building skills platforms, LMS, assessment tools, and skills registries.
 
-📥 Download NOS PDFs from: [NBTE Public Dashboard](https://www.digitalnbte.nbte.gov.ng/Public/PUCDashboard)
+📥 Download NOS PDFs from: [NBTE NOS Public Dashboard](https://www.digitalnbte.nbte.gov.ng/Public/PUCNOS)
 
 ---
 
