@@ -22,6 +22,7 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
     current_lo = None
     current_pc = None
     last_pc_col_idx = 999
+    reached_appendix = False
 
     def get_or_create_lo(lo_num, desc=""):
         nonlocal current_lo, current_unit
@@ -72,15 +73,33 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
 
         for page in pdf.pages:
             text = page.extract_text() or ""
-            
+
+            # Some NBTE PDFs append a workshop-attendee list (name/org/
+            # address/email/phone) after the last real unit. Once we see it,
+            # stop extracting entirely for the rest of the document --
+            # otherwise its free-form text gets mistaken for continuation of
+            # the last LO/PC.
+            if "PARTICIPANT FOR" in text.upper():
+                reached_appendix = True
+            if reached_appendix:
+                continue
+
             # 1. Process Text for Units
             lines = text.split('\n')
             pending_title = ""
+            pending_title_line = False
             pending_code_line = False
             for line in lines:
                 line = line.strip()
                 if not line: continue
-                
+
+                # Handle multi-line unit headings (e.g. "Unit 3:" alone, with
+                # the actual title "TEAMWORK" on the following line)
+                if pending_title_line:
+                    pending_title = line
+                    pending_title_line = False
+                    continue
+
                 # Handle multi-line reference numbers (code on next line)
                 if pending_code_line:
                     code_match = unit_code_pattern.search(line)
@@ -114,6 +133,8 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
                 header_match = unit_header_pattern.match(line)
                 if header_match:
                     pending_title = header_match.group(1).strip()
+                    if not pending_title:
+                        pending_title_line = True
                     continue
                 
                 # Capture separate Unit Title: lines
@@ -159,8 +180,12 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
                             pending_title = ""
                             continue
                 
-                # Direct code on its own line (rare edge case)
-                if re.match(r'^[A-Z]{2,}/[A-Z]{2,}/\d+/L\d+$', line):
+                # Direct code on its own line (rare edge case). Only trust this
+                # when a unit title was just seen -- otherwise a code that
+                # happens to wrap onto its own line inside the Mandatory Units
+                # summary table (no title context at all) gets misread as the
+                # start of a new, empty unit.
+                if pending_title and re.match(r'^[A-Z]{2,}/[A-Z]{2,}/\d+/L\d+$', line):
                     current_unit = {
                         "code": line.strip(),
                         "title": pending_title if pending_title else "Unknown Title",
@@ -226,7 +251,17 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
                     if not content_started:
                         has_marker = any(lo_pattern.search(c) for c in clean_row) or \
                                      any(pc_pattern.search(c) for c in clean_row)
-                        if not has_marker:
+                        # Wrapped header fragments ("OBJECTIVE", "(LO)", "The
+                        # learner", "will:") consistently land in column 1 in
+                        # this table template; real content (LO names, PC
+                        # codes, or continuation text with no marker at all)
+                        # never does. Treat any non-blank cell outside column
+                        # 1 as real content too, so bare continuation rows
+                        # aren't mistaken for more header.
+                        has_content_outside_header_col = any(
+                            c for idx, c in enumerate(clean_row) if idx != 1
+                        )
+                        if not (has_marker or has_content_outside_header_col):
                             continue
                         content_started = True
 
