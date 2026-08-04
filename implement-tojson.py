@@ -11,6 +11,7 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
     unit_title_pattern = re.compile(r"Unit Title\s*[:-]\s*(.*)", re.IGNORECASE)
     lo_pattern = re.compile(r"(?:Learning\s*Outcome|LO)\.?\s*[:\s]*(\d+)\b", re.IGNORECASE)
     pc_pattern = re.compile(r"^(?:PC\s+)?(\d+\.\d+)$", re.IGNORECASE)
+    title_line_pattern = re.compile(r"^TITLE:?\s*(.*)$", re.IGNORECASE)
 
     data = {
         "trade_name": trade_name,
@@ -21,6 +22,7 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
     current_lo = None
     current_pc = None
     last_pc_col_idx = 999
+    reached_appendix = False
 
     def get_or_create_lo(lo_num, desc=""):
         nonlocal current_lo, current_unit
@@ -46,25 +48,58 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
             first_page_text = pdf.pages[0].extract_text()
             if first_page_text:
                 lines = [l.strip() for l in first_page_text.split('\n') if l.strip()]
-                for line in lines:
-                    clean_line = re.sub(r"NATIONAL SKILLS QUALIFICATION", "", line, flags=re.IGNORECASE).strip()
-                    if clean_line and not clean_line.isdigit():
-                        data["trade_name"] = clean_line
+                # Prefer the NBTE cover-page "TITLE:" line (name on the same line,
+                # or on the next non-blank line if TITLE: stands alone).
+                for i, line in enumerate(lines):
+                    title_match = title_line_pattern.match(line)
+                    if title_match:
+                        remainder = title_match.group(1).strip()
+                        if remainder:
+                            data["trade_name"] = remainder
+                        else:
+                            for next_line in lines[i + 1:]:
+                                if next_line:
+                                    data["trade_name"] = next_line
+                                    break
                         break
-                if not data["trade_name"] and lines:
-                    data["trade_name"] = lines[0]
+                if not data["trade_name"]:
+                    for line in lines:
+                        clean_line = re.sub(r"NATIONAL SKILLS QUALIFICATION", "", line, flags=re.IGNORECASE).strip()
+                        if clean_line and not clean_line.isdigit():
+                            data["trade_name"] = clean_line
+                            break
+                    if not data["trade_name"] and lines:
+                        data["trade_name"] = lines[0]
 
         for page in pdf.pages:
             text = page.extract_text() or ""
-            
+
+            # Some NBTE PDFs append a workshop-attendee list (name/org/
+            # address/email/phone) after the last real unit. Once we see it,
+            # stop extracting entirely for the rest of the document --
+            # otherwise its free-form text gets mistaken for continuation of
+            # the last LO/PC.
+            if "PARTICIPANT FOR" in text.upper():
+                reached_appendix = True
+            if reached_appendix:
+                continue
+
             # 1. Process Text for Units
             lines = text.split('\n')
             pending_title = ""
+            pending_title_line = False
             pending_code_line = False
             for line in lines:
                 line = line.strip()
                 if not line: continue
-                
+
+                # Handle multi-line unit headings (e.g. "Unit 3:" alone, with
+                # the actual title "TEAMWORK" on the following line)
+                if pending_title_line:
+                    pending_title = line
+                    pending_title_line = False
+                    continue
+
                 # Handle multi-line reference numbers (code on next line)
                 if pending_code_line:
                     code_match = unit_code_pattern.search(line)
@@ -98,6 +133,8 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
                 header_match = unit_header_pattern.match(line)
                 if header_match:
                     pending_title = header_match.group(1).strip()
+                    if not pending_title:
+                        pending_title_line = True
                     continue
                 
                 # Capture separate Unit Title: lines
@@ -143,8 +180,12 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
                             pending_title = ""
                             continue
                 
-                # Direct code on its own line (rare edge case)
-                if re.match(r'^[A-Z]{2,}/[A-Z]{2,}/\d+/L\d+$', line):
+                # Direct code on its own line (rare edge case). Only trust this
+                # when a unit title was just seen -- otherwise a code that
+                # happens to wrap onto its own line inside the Mandatory Units
+                # summary table (no title context at all) gets misread as the
+                # start of a new, empty unit.
+                if pending_title and re.match(r'^[A-Z]{2,}/[A-Z]{2,}/\d+/L\d+$', line):
                     current_unit = {
                         "code": line.strip(),
                         "title": pending_title if pending_title else "Unknown Title",
@@ -165,6 +206,26 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
             })
             
             for table in tables:
+                # pdfplumber sometimes splits one visual table into the real
+                # multi-column table plus several spurious single-column
+                # "tables" -- word-wrap fragments of repeated headers and
+                # already-captured cell text. Those have no LO/PC markers to
+                # reset current_lo/current_pc, so their leftover text was
+                # bleeding into whatever LO was last active. Real content
+                # rows always have more than one populated cell.
+                max_cols_used = max(
+                    (sum(1 for c in row if c not in (None, "")) for row in table),
+                    default=0,
+                )
+                if max_cols_used <= 1:
+                    continue
+                # Repeated table headers on continuation pages often get
+                # split into several single-cell rows (e.g. "OBJECTIVE",
+                # "(LO)", "The learner", "will:") that don't contain the
+                # full header phrase, so the row-level header filter below
+                # can't catch them. Until a real LO/PC marker shows up in
+                # this table, treat every row as still part of that header.
+                content_started = False
                 for row in table:
                     clean_row = [str(c).replace('\n', ' ').strip() if c is not None else "" for c in row]
                     
@@ -186,7 +247,24 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
                     # Skip empty rows
                     if not any(clean_row):
                         continue
-                    
+
+                    if not content_started:
+                        has_marker = any(lo_pattern.search(c) for c in clean_row) or \
+                                     any(pc_pattern.search(c) for c in clean_row)
+                        # Wrapped header fragments ("OBJECTIVE", "(LO)", "The
+                        # learner", "will:") consistently land in column 1 in
+                        # this table template; real content (LO names, PC
+                        # codes, or continuation text with no marker at all)
+                        # never does. Treat any non-blank cell outside column
+                        # 1 as real content too, so bare continuation rows
+                        # aren't mistaken for more header.
+                        has_content_outside_header_col = any(
+                            c for idx, c in enumerate(clean_row) if idx != 1
+                        )
+                        if not (has_marker or has_content_outside_header_col):
+                            continue
+                        content_started = True
+
                     # A. Check for LO
                     for c_idx, cell in enumerate(clean_row):
                         lo_match = lo_pattern.search(cell)
@@ -262,7 +340,20 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
                             if cell not in current_lo["description"]:
                                 current_lo["description"] = (current_lo["description"] + " " + cell).strip()
 
-    return data
+    return clean_data_text(data)
+
+
+def clean_data_text(obj):
+    """Collapse PDF line-wrap hyphenation (e.g. 'Problem-\\nSolving' -> 'Problem- Solving'
+    after newline-to-space joining) back into 'Problem-Solving', recursively over all strings."""
+    if isinstance(obj, str):
+        return re.sub(r'(?<=\w)-\s+(?=\w)', '-', obj).strip()
+    if isinstance(obj, list):
+        return [clean_data_text(x) for x in obj]
+    if isinstance(obj, dict):
+        return {k: clean_data_text(v) for k, v in obj.items()}
+    return obj
+
 
 def get_unit_level(code):
     """Extract level from a unit code."""
