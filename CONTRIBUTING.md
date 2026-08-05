@@ -124,7 +124,14 @@ A single PDF that spans multiple NSQ levels (common for masonry and other trades
 Before manual review, run the validator to catch structural issues automatically:
 
 ```bash
+# Validate everything
 python validate.py extracted_json/
+
+# Validate a single level
+python validate.py extracted_json/level-2/
+
+# Validate a specific file
+python validate.py extracted_json/level-2/"NOS Painting and decoration.json"
 ```
 
 The validator checks for:
