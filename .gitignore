@@ -32,7 +32,3 @@ completed/
 
 # PDFs Worker Directory
 worker
-
-# Other files
-validate.py
-validator
