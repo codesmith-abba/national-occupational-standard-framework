@@ -28,10 +28,11 @@ At a high level the process is:
 
 1. **Pick a NOS PDF** — find one on the NBTE portal (or elsewhere) that is not yet in the repo.
 2. **Place it in `worker/`**.
-3. **Convert** to JSON and text with the extraction scripts.
-4. **Verify** every unit, learning outcome, and performance criteria against the PDF.
-5. **Fix any extraction gaps** in `implement-tojson.py` if the script misses data.
-6. **Submit a pull request** when the output is clean.
+3. **Convert** to JSON with the extraction script.
+4. **Run `validate.py`** to check for structural issues, duplicate codes, and missing data.
+5. **Verify** every unit, learning outcome, and performance criteria against the PDF.
+6. **Fix any extraction gaps** in `implement-tojson.py` if the script misses data.
+7. **Submit a pull request** when the output is clean.
 
 ---
 
@@ -71,6 +72,8 @@ These NOS have already been converted to JSON. Pick a trade **not** listed here 
 | Fashion and Garment Making | ✅ | ✅ | ✅ | | |
 | Furniture Making and Upholstery | ✅ | ✅ | ✅ | | |
 | ICT Back-End Web Development | | | ✅ | | |
+| ICT CAD CAM | | | ✅ | | |
+| ICT Cinematography | | | ✅ | | |
 | ICT Computer Hardware Repairs & Maintenance | ✅ | ✅ | ✅ | | |
 | ICT Computer Networking | ✅ | ✅ | ✅ | | |
 | ICT Computer Operation | | ✅ | | | |
@@ -80,6 +83,8 @@ These NOS have already been converted to JSON. Pick a trade **not** listed here 
 | ICT Digital Content Creation | | | ✅ | | |
 | ICT Digital Service Operations | | ✅ | ✅ | | |
 | ICT Front-End Web Development | | | ✅ | | |
+| ICT Mobile App Development | | | | | ✅ |
+| ICT Mobile Phone RM | | ✅ | | | |
 | ICT Network Support Specialist | | | | ✅ | |
 | ICT Social Media Communication | | | ✅ | | |
 | ICT Social Media Contents Creation and Management | ✅ | ✅ | ✅ | | |
@@ -92,6 +97,7 @@ These NOS have already been converted to JSON. Pick a trade **not** listed here 
 | Solar Photovoltaic System Installation and Maintenance | ✅ | ✅ | ✅ | | |
 | Tilling and Decorative Stonework | ✅ | ✅ | ✅ | | |
 | Tire and Wheel Services | ✅ | ✅ | ✅ | | |
+| Traditional Medicine Practice | ✅ | ✅ | | | |
 | Welding and Fabrication Levels | ✅ | ✅ | ✅ | | |
 
 ### 2. Run the extraction scripts
@@ -113,7 +119,25 @@ extracted_json/
 
 A single PDF that spans multiple NSQ levels (common for masonry and other trades) will produce one file per level, each containing only the units belonging to that level.
 
-### 3. Verify the JSON output
+### 3. Run the validator
+
+Before manual review, run the validator to catch structural issues automatically:
+
+```bash
+python validate.py extracted_json/
+```
+
+The validator checks for:
+- **Structural integrity** — missing keys, wrong types.
+- **Unit code format** — valid patterns and OCR errors (letter `O` instead of `0`).
+- **Level consistency** — unit codes match their document level.
+- **Numbering gaps** — missing LOs or PCs in a sequence.
+- **Duplicates** — repeated unit codes, LO numbers, or PC codes.
+- **Empty descriptions** — trade names, unit titles, LOs, or PCs that may have been missed.
+
+Fix any errors before moving on. Warnings (empty descriptions, OCR suspicion) are acceptable if verified manually against the source PDF.
+
+### 4. Verify the JSON output
 
 Open the generated JSON and the original PDF side by side. For **every unit** check:
 
@@ -136,9 +160,9 @@ for u in data['units']:
 "
 ```
 
-If any unit, LO, or PC is missing, move to step 4. If everything checks out, skip to step 5.
+If any unit, LO, or PC is missing, move to step 5. If everything checks out, skip to step 6.
 
-### 4. What to do when extraction misses data
+### 5. What to do when extraction misses data
 
 The extraction script (`implement-tojson.py`) handles the most common PDF layouts, but NBTE PDFs vary in formatting. Common issues you may encounter:
 
@@ -152,7 +176,7 @@ The extraction script (`implement-tojson.py`) handles the most common PDF layout
 
 If you are comfortable with Python regex and `pdfplumber`, please include the fix in your PR. If not, open an issue describing what is missing and attach the PDF — someone else can work on the extraction logic.
 
-### 5. Clean up and PR
+### 6. Clean up and PR
 
 - Remove the source PDF from `worker/` — only the extracted JSON and text files should be committed.
 - Delete any stale files in `worker/extracted_json/` left over from earlier runs.

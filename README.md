@@ -10,7 +10,8 @@ Converts the Nigerian National Board for Technical Education (NBTE) National Occ
 
 ```
 ├── implement-tojson.py    # PDF → JSON converter (auto-detects NSQ level)
-├── CONTRIBUTING.md        # Guide for contributors
+├── validate.py             # Validates JSON structure, codes, and completeness
+├── CONTRIBUTING.md         # Guide for contributors
 ├── worker/                # Place new NOS PDFs here for extraction
 ├── extracted_json/        # JSON output
 │   ├── level-1/
@@ -60,7 +61,8 @@ cp ~/Downloads/"NOS Course Name.pdf" ./worker/
 # Extract
 python implement-tojson.py --dir ./worker
 
-# Output goes to extracted_json/ and extracted_text/
+# Validate
+python validate.py extracted_json/
 ```
 
 ## Contributing

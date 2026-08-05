@@ -1,5 +1,5 @@
 {
-  "trade_name": "S",
+  "trade_name": "NOS Traditional Medicine Practice",
   "level": 1,
   "units": [
     {
@@ -78,7 +78,7 @@
         },
         {
           "lo_num": "2",
-          "description": "Understand Leadership in Teamwork 2.1 \uf0b7 \uf0b7 \uf0b7 \uf0b7 \uf0b7 State the qualities of a good Leader in Traditional Medicine Practice: Compassion Mutual respect Knowledgeable Competent and Confident Good listener, etc. PERFORMANCE CRITERIA Evidence Ref. Page No. OBJECTIVE (LO) The learner will:",
+          "description": "Understand Leadership in Teamwork 2.1 \uf0b7 \uf0b7 \uf0b7 \uf0b7 \uf0b7 State the qualities of a good Leader in Traditional Medicine Practice: Compassion Mutual respect Knowledgeable Competent and Confident Good listener, etc.",
           "performance_criteria": [
             {
               "pc_code": "2.2",
@@ -92,7 +92,7 @@
         },
         {
           "lo_num": "3",
-          "description": "Understand good working relationship in a Team PERFORMANCE CRITERIA Evidence Ref. Page No. OBJECTIVE (LO) The learner will:",
+          "description": "Understand good working relationship in a Team:",
           "performance_criteria": [
             {
               "pc_code": "3.1",
