@@ -29,6 +29,8 @@ nbte_pdfs.json
 old/
 extracted_text/
 completed/
+/.commandcode
+maintainer.md
 
 # PDFs Worker Directory
 worker
