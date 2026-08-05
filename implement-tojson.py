@@ -13,6 +13,20 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
     pc_pattern = re.compile(r"^(?:PC\s+)?(\d+\.\d+)$", re.IGNORECASE)
     title_line_pattern = re.compile(r"^TITLE:?\s*(.*)$", re.IGNORECASE)
 
+    # Wrapped fragments of the repeated table header seen so far, across
+    # several different NBTE table layouts. Which *column* these land in
+    # varies per page/table, so they're matched by exact text instead.
+    HEADER_ROW_FRAGMENTS = {
+        "LEARNING", "OBJECTIVE", "(LO)", "THE LEARNER",
+        "THE LEARNER WILL:", "THE LEARNER WILL", "WILL:", "WILL",
+        "PERFORMANCE", "CRITERIA", "PERFORMANCE CRITERIA",
+        "THE LEARNER CAN:", "THE LEARNER CAN",
+        "EVIDENCE", "TYPE", "EVIDENCE TYPE",
+        "REF.", "REF", "PAGE", "NO.", "NO", "PAGE NO.", "PAGE NO",
+        "EVIDENCE REF.", "EVIDENCE REF", "REF. PAGE", "REF. PAGE NO.",
+        "EVIDENCE REF. PAGE NO.", "EVIDENCE REF. PAGE",
+    }
+
     data = {
         "trade_name": trade_name,
         "units": []
@@ -74,12 +88,15 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
         for page in pdf.pages:
             text = page.extract_text() or ""
 
-            # Some NBTE PDFs append a workshop-attendee list (name/org/
-            # address/email/phone) after the last real unit. Once we see it,
-            # stop extracting entirely for the rest of the document --
-            # otherwise its free-form text gets mistaken for continuation of
-            # the last LO/PC.
-            if "PARTICIPANT FOR" in text.upper():
+            # Some NBTE PDFs append a workshop/review-attendee list (name/
+            # org/address/email/phone) after the last real unit -- the exact
+            # heading varies ("PARTICIPANT FOR ... WORKSHOP", "REVIEW TEAM
+            # LIST", "REVALIDATION TEAM LIST"). Once we see one, stop
+            # extracting entirely for the rest of the document -- otherwise
+            # its free-form text gets mistaken for continuation of the last
+            # LO/PC.
+            appendix_markers = ("PARTICIPANT FOR", "REVIEW TEAM LIST", "REVALIDATION TEAM LIST")
+            if any(marker in text.upper() for marker in appendix_markers):
                 reached_appendix = True
             if reached_appendix:
                 continue
@@ -251,17 +268,18 @@ def parse_pdf_to_json(pdf_path, trade_name=None):
                     if not content_started:
                         has_marker = any(lo_pattern.search(c) for c in clean_row) or \
                                      any(pc_pattern.search(c) for c in clean_row)
-                        # Wrapped header fragments ("OBJECTIVE", "(LO)", "The
-                        # learner", "will:") consistently land in column 1 in
-                        # this table template; real content (LO names, PC
-                        # codes, or continuation text with no marker at all)
-                        # never does. Treat any non-blank cell outside column
-                        # 1 as real content too, so bare continuation rows
-                        # aren't mistaken for more header.
-                        has_content_outside_header_col = any(
-                            c for idx, c in enumerate(clean_row) if idx != 1
+                        # A row still counts as header noise only if every
+                        # non-blank cell is one of the known wrapped header
+                        # fragments -- which column they land in varies by
+                        # table layout, so column position isn't reliable.
+                        # Any other text (an LO name, a PC code, or bare
+                        # continuation text with no marker at all) means real
+                        # content has started.
+                        is_only_header_fragments = all(
+                            (not c) or c.strip().upper() in HEADER_ROW_FRAGMENTS
+                            for c in clean_row
                         )
-                        if not (has_marker or has_content_outside_header_col):
+                        if not has_marker and is_only_header_fragments:
                             continue
                         content_started = True
 
