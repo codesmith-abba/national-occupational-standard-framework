@@ -70,6 +70,7 @@ These NOS have already been converted to JSON. Pick a trade **not** listed here 
 | Cosmetology and Beauty Therapy | ✅ | ✅ | ✅ | | |
 | Electrical Installation Maintenance and Repairs | ✅ | ✅ | ✅ | | |
 | Fashion and Garment Making | ✅ | ✅ | ✅ | | |
+| Fish Farming Activity (Aquaculture) | ✅ | ✅ | ✅ | | |
 | Furniture Making and Upholstery | ✅ | ✅ | ✅ | | |
 | ICT Back-End Web Development | | | ✅ | | |
 | ICT CAD CAM | | | ✅ | | |

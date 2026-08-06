@@ -430,7 +430,7 @@
         },
         {
           "lo_num": "5",
-          "description": "",
+          "description": "Demonstrate Fish production using common methods",
           "performance_criteria": [
             {
               "pc_code": "5.1",
@@ -752,7 +752,7 @@
         },
         {
           "lo_num": "2",
-          "description": "",
+          "description": "Carry-out the procedures of induced breeding in catfish",
           "performance_criteria": [
             {
               "pc_code": "2.1",
@@ -836,7 +836,7 @@
         },
         {
           "lo_num": "4",
-          "description": "",
+          "description": "Carry-out reconditioning of female brood stock",
           "performance_criteria": [
             {
               "pc_code": "4.1",
@@ -1077,11 +1077,11 @@
               "description": "Administer medication as prescribed by fish health expert."
             },
             {
-              "pc_code": "3.7",
+              "pc_code": "3.6",
               "description": "Keep record of diseases and treatments"
             },
             {
-              "pc_code": "3.8",
+              "pc_code": "3.7",
               "description": "Carry out common treatments procedures for fish diseases (such as antibiotics, antiparasitics and antifungal, vaccination)"
             }
           ]
@@ -1152,7 +1152,7 @@
         },
         {
           "lo_num": "4",
-          "description": "OUTCOME (LO)",
+          "description": "Manage fish supply chain",
           "performance_criteria": [
             {
               "pc_code": "4.1",
@@ -1170,7 +1170,7 @@
         },
         {
           "lo_num": "5",
-          "description": "",
+          "description": "Marketing and Sales",
           "performance_criteria": [
             {
               "pc_code": "5.1",

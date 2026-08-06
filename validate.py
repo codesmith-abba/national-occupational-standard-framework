@@ -27,17 +27,20 @@ LEVEL_PATTERN = re.compile(r"/L([1-5])(?:/|$)")
 CODE_PATTERNS = [
         # CON/PD/004/L2
         re.compile(
-            r"^[A-Z]{2,5}/[A-Z0-9]{2,6}/\d{2,4}/L[1-5]$"
+            r"^[A-Z]{2,5}/[A-Z0-9]{2,6}/\d{2,4}/L[1-5]$",
+            re.IGNORECASE,
         ),
 
         # AGR/AEM/L1/001
         re.compile(
-            r"^[A-Z]{2,5}/[A-Z0-9]{2,6}/L[1-5]/\d{2,4}$"
+            r"^[A-Z]{2,5}/[A-Z0-9]{2,6}/L[1-5]/\d{2,4}$",
+            re.IGNORECASE,
         ),
 
         # CONCJ/001/L3
         re.compile(
-            r"^[A-Z]{4,8}/\d{2,4}/L[1-5]$"
+            r"^[A-Z]{4,8}/\d{2,4}/L[1-5]$",
+            re.IGNORECASE,
         ),
 ]
 # NBTE source PDFs sometimes use the letter 'O' instead of the digit '0'
